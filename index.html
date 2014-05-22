@@ -1,56 +1,179 @@
+<!doctype html>
 <html>
-	<body>
-		<style type="text/css">
-			.zone{
-				width: 100%;
-				height: 300px;
-				margin: 300px 0;
+	<head>
+		<title>playHead</title>
+		<style>
+			body {
+				height: 4000px;
+				width: 4000px;
 			}
+
+			* {
+				-webkit-box-sizing: border-box;
+				   -moz-box-sizing: border-box;
+						box-sizing: border-box;
+			}
+			
+			.modal {
+				position: fixed;
+				height: 200px;
+				width: 200px;
+				padding: 1em;
+				-webkit-box-shadow: 0 0 5px rgba(0,0,0,.25);
+				   -moz-box-shadow: 0 0 5px rgba(0,0,0,.25);
+						box-shadow: 0 0 5px rgba(0,0,0,.25);
+				-webkit-border-radius: 3px;
+				   -moz-border-radius: 3px;
+						border-radius: 3px;
+				-webkit-transition: .3s all;
+				   -moz-transition: .3s all;
+						transition: .3s all;
+			}
+
+			#div {
+				top: 50%;
+				left: -200px;
+				margin-top: -100px;
+				border: 1px solid #BBB;
+				background: #E1E1E1;
+				color: #111;
+			}
+
+			#div.active {
+				left: 50%;
+				margin-left: -100px;
+			}
+
+			#div2 {
+				top: -200px;
+				left: 50%;
+				margin-left: -100px;
+				background: #08C;
+				border: 1px solid #07B;
+				color: #FFF;
+			}
+
+			#div2.active {
+				top: 50%;
+				margin-top: -100px;
+			}
+
+			#div3 {
+				bottom: -200px;
+				left: 50%;
+				margin-left: -100px;
+				background: #F90;
+				border: 1px solid #E80;
+				color: #FFF;
+			}
+
+			#div3.active {
+				bottom: 50%;
+				margin-bottom: -100px;
+			}
+
+			#div4 {
+				right: -200px;
+				top: 50%;
+				margin-top: -100px;
+				background: cyan;
+				border: 1px solid #E80;
+				color: #333;
+			}
+
+			#div4.active {
+				right: 50%;
+				margin-right: -100px;
+			}
+
 		</style>
+	</head>
+	<body>
+		<h1>Start Scrolling!</h1>
 
-		<div class="zone">
-			<h3>zone 1</h3>
-		</div>
-		<div class="zone">
-			<h3>zone 2</h3>
-		</div>
-		<div class="zone">
-			<h3>zone 3</h3>
-		</div>
+		<div id="div" class="modal"><p>I'm stylish!</div>
+		<div id="div2" class="modal"><p>I'm also stylish!</div>
+		<div id="div3" class="modal"><p>So am I!!!</div>
+		<div id="div4" class="modal"><p>Don't forget me!</div>
 
-		<script type="text/javascript" src="playhead.js"></script>
-		<script type="text/javascript">
-			var my_zones = [
+		<!-- Load the script -->
+		<script src="playhead.js"></script>
+
+		<script>
+			var defClass = 'modal';
+
+			// Define tracks
+			var totalRange = 2000,
+				tracks = [
 				{
-					'id': 'zone 1',
-					'start': 0,
-					'stop': 400,
-					'code': function (){
-						document.body.style.background = "#fff";
-						document.body.style.color = "#000";
+					range : {
+						in: 100,
+						out: totalRange/4
+					},
+					playIn: function() {
+
+						document.getElementById('div').setAttribute('class', defClass + ' active');
+					
+					},
+					playOut: function() {
+						document.getElementById('div').setAttribute('class', defClass);
 					}
 				},
 				{
-					'id': 'zone 2',
-					'start': 600,
-					'stop': 800,
-					'code': function (){
-						document.body.style.background = "#000";
-						document.body.style.color = "#fff";
+					range : {
+						in: totalRange/4,
+						out: (totalRange/4)*2
+					},
+					playIn: function() {
+						document.getElementById('div2').setAttribute('class', defClass + ' active');
+					},
+					playOut: function() {
+						document.getElementById('div2').setAttribute('class', defClass);
 					}
 				},
 				{
-					'id': 'zone 3',
-					'start': 1000,
-					'stop': 1200,
-					'code': function (){
-						document.body.style.background = "#f00";
-						document.body.style.color = "#fff";
+					range : {
+						in: (totalRange/4)*2,
+						out: (totalRange/4)*3
+					},
+					playIn: function() {
+						document.getElementById('div3').setAttribute('class', defClass + ' active');
+					},
+					playOut: function() {
+						document.getElementById('div3').setAttribute('class', defClass);
+					}
+				},
+				{
+					range : {
+						in: (totalRange/4)*3,
+						out: totalRange
+					},
+					playIn: function() {
+						document.getElementById('div4').setAttribute('class', defClass + ' active');
+					},
+					playOut: function() {
+						document.getElementById('div4').setAttribute('class', defClass);
 					}
 				}
 			];
 
-			playhead.init({mode: 'portrait', zones: my_zones});
+			// Call the tracks
+			playHead.setTracks(tracks);
+
+			// Custom track
+			playHead.setTrack({
+				range: {
+					in: 1400,
+					out: 2200
+				},
+				destroy: true,
+				playIn: function() {
+					console.log('I\'ve come within range!...');
+				},
+				playOut: function() {
+					console.log('I\'m getting destroyed and won\'t show up anymore...');
+				}
+			});
 		</script>
 	</body>
 </html>
