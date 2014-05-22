@@ -90,7 +90,7 @@ var playHead = (function() {
 		valY = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
 	}
 
-	var setTracks = (function(setList, globalOptions) {
+	var setTracks = (function(tracks, globalOptions) {
 		var globalSettings;
 
 		if( globalOptions !== 'undefined' ) {
@@ -99,7 +99,7 @@ var playHead = (function() {
 
 		}
 
-		setList.forEach(function(track) {
+		tracks.forEach(function(track) {
 
 			if( globalOptions !== 'undefined' ) {
 
