@@ -8,38 +8,68 @@ include the script in your page
 
 #### Set zones
 use pixel number for start and stop range
+	/* Set a single zone */
+	var zone = {
+			range : {
+				in : 100,
+				out: 500
+			},
+			playIn: function() {
+				document.body.style.background = "#333";
+			},
+			playOut: function() {
+				document.body.style.background = "#FFF";
+			}
+		};
 
-	var my_zones = [
+	/* Or create an array of zones */
+	var zones = [
 		{
-			'id': 'zone 1',
-			'start': 0,
-			'stop': 400,
-			'code': function (){
-				document.body.style.background = "#fff";
-				document.body.style.color = "#000";
+			range : {
+				in : 100,
+				out: 500
+			},
+			playIn: function() {
+				document.body.style.background = "#333";
+			},
+			playOut: function() {
+				document.body.style.background = "#FFF";
 			}
 		},
 		{
-			'id': 'zone 2',
-			'start': 600,
-			'stop': 800,
-			'code': function (){
-				document.body.style.background = "#000";
-				document.body.style.color = "#fff";
+			range : {
+				in : 600,
+				out: 1000
+			},
+			playIn: function() {
+				alert("I'm in range!");
+			},
+			playOut: function() {
+				alert("I'm leaving the range.");
 			}
 		},
 		{
-			'id': 'zone 3',
-			'start': 1000,
-			'stop': 1200,
-			'code': function (){
-				document.body.style.background = "#f00";
-				document.body.style.color = "#fff";
+			range : {
+				in : 950,
+				out: 1200
+			},
+			playIn: function() {
+				console.log("I'm overlapping another zone");
+			},
+			playOut: function() {
+				console.log("I'm leaving this range too");
 			}
 		}
 	];
 
+#### Options
+zone.orientation defaults to "portrait", but accepts "landscape" as well
+
+zone.destroy will remove the listener, so after playIn and playOut trigger, will never call again
+
+Global options can be set for playHead.setTracks by adding the options after the array. playHead.setTracks(zones, {destroy: true});
+
+
 #### Init
-set mode to "portrait" or "landscape"
-	
-	playhead.init({mode: 'portrait', zones: my_zones});
+playHead.setTrack(zone);
+playHead.setTracks(zones);
